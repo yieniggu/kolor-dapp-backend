@@ -1,13 +1,34 @@
 {
   "files": {
-    "main.css": "/static/css/main.041e51ae.css",
-    "main.js": "/static/js/main.a4e62779.js",
+    "main.css": "/static/css/main.565dadf2.css",
+    "main.js": "/static/js/main.255bb309.js",
+    "static/media/intro-background.png": "/static/media/intro-background.d9e729041032ca564d6d.png",
+    "static/media/costa.jpg": "/static/media/costa.27388341f39e437aef01.jpg",
+    "static/media/parque.jpg": "/static/media/parque.a583e5be14f607a67edd.jpg",
+    "static/media/dashboard-background.png": "/static/media/dashboard-background.b1ac352b2bab4976afcb.png",
+    "static/media/login-background.png": "/static/media/login-background.f90247cd3cbab7e11745.png",
+    "static/media/map.png": "/static/media/map.df73f96025972f5417e5.png",
+    "static/media/top-background.png": "/static/media/top-background.6ee9b831a9b5086d07b1.png",
+    "static/media/contact-background.png": "/static/media/contact-background.cc516c8ef7b745b69898.png",
+    "static/media/mini-map.png": "/static/media/mini-map.ed7607b60173dacf7bb0.png",
+    "static/media/video.png": "/static/media/video.06bf9308c41a74168b27.png",
+    "static/media/logo_icon.png": "/static/media/logo_icon.e178a0756a18edab5671.png",
+    "static/media/ico_metamask.svg": "/static/media/ico_metamask.b3649ecfe8c45f27ceb9f99d70f3d24e.svg",
+    "static/media/ico_google.svg": "/static/media/ico_google.cd676080e7ff1d7766094d86ec5843f3.svg",
+    "static/media/slick.svg": "/static/media/slick.2630a3e3eab21c607e21.svg",
+    "static/media/slick.eot": "/static/media/slick.a4e97f5a2a64f0ab1323.eot",
+    "static/media/slick.ttf": "/static/media/slick.c94f7671dcc99dce43e2.ttf",
+    "static/media/slick.woff": "/static/media/slick.295183786cd8a1389865.woff",
+    "static/media/ico_email.svg": "/static/media/ico_email.f4ae37ad8fa651cbd4a643fcccbd2047.svg",
+    "static/media/ico_facebook.svg": "/static/media/ico_facebook.fe9e859acfcb03f6c8de092e6e26f653.svg",
+    "static/media/ico_lock.svg": "/static/media/ico_lock.f2139c7e6f4de17e63c02f55cadcfcfd.svg",
     "index.html": "/index.html",
-    "main.041e51ae.css.map": "/static/css/main.041e51ae.css.map",
-    "main.a4e62779.js.map": "/static/js/main.a4e62779.js.map"
+    "static/media/ico_menu.svg": "/static/media/ico_menu.6308260a875574777f836d03c8d950df.svg",
+    "main.565dadf2.css.map": "/static/css/main.565dadf2.css.map",
+    "main.255bb309.js.map": "/static/js/main.255bb309.js.map"
   },
   "entrypoints": [
-    "static/css/main.041e51ae.css",
-    "static/js/main.a4e62779.js"
+    "static/css/main.565dadf2.css",
+    "static/js/main.255bb309.js"
   ]
 }
