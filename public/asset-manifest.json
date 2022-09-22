@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.565dadf2.css",
-    "main.js": "/static/js/main.255bb309.js",
+    "main.js": "/static/js/main.91f8013e.js",
     "static/media/intro-background.png": "/static/media/intro-background.d9e729041032ca564d6d.png",
     "static/media/costa.jpg": "/static/media/costa.27388341f39e437aef01.jpg",
     "static/media/parque.jpg": "/static/media/parque.a583e5be14f607a67edd.jpg",
@@ -25,10 +25,10 @@
     "index.html": "/index.html",
     "static/media/ico_menu.svg": "/static/media/ico_menu.6308260a875574777f836d03c8d950df.svg",
     "main.565dadf2.css.map": "/static/css/main.565dadf2.css.map",
-    "main.255bb309.js.map": "/static/js/main.255bb309.js.map"
+    "main.91f8013e.js.map": "/static/js/main.91f8013e.js.map"
   },
   "entrypoints": [
     "static/css/main.565dadf2.css",
-    "static/js/main.255bb309.js"
+    "static/js/main.91f8013e.js"
   ]
 }
