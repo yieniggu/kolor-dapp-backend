@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.b7b6a21e.css",
-    "main.js": "/static/js/main.2db9826e.js",
+    "main.css": "/static/css/main.643b5c9c.css",
+    "main.js": "/static/js/main.2480ae1b.js",
     "static/media/intro-background.png": "/static/media/intro-background.d9e729041032ca564d6d.png",
     "static/media/costa.jpg": "/static/media/costa.27388341f39e437aef01.jpg",
     "static/media/parque.jpg": "/static/media/parque.a583e5be14f607a67edd.jpg",
@@ -22,13 +22,13 @@
     "static/media/ico_email.svg": "/static/media/ico_email.f4ae37ad8fa651cbd4a643fcccbd2047.svg",
     "static/media/ico_facebook.svg": "/static/media/ico_facebook.fe9e859acfcb03f6c8de092e6e26f653.svg",
     "static/media/ico_lock.svg": "/static/media/ico_lock.f2139c7e6f4de17e63c02f55cadcfcfd.svg",
-    "index.html": "/index.html",
     "static/media/ico_menu.svg": "/static/media/ico_menu.6308260a875574777f836d03c8d950df.svg",
-    "main.b7b6a21e.css.map": "/static/css/main.b7b6a21e.css.map",
-    "main.2db9826e.js.map": "/static/js/main.2db9826e.js.map"
+    "index.html": "/index.html",
+    "main.643b5c9c.css.map": "/static/css/main.643b5c9c.css.map",
+    "main.2480ae1b.js.map": "/static/js/main.2480ae1b.js.map"
   },
   "entrypoints": [
-    "static/css/main.b7b6a21e.css",
-    "static/js/main.2db9826e.js"
+    "static/css/main.643b5c9c.css",
+    "static/js/main.2480ae1b.js"
   ]
 }
