@@ -9,6 +9,8 @@ const {
 
 const landTokenContract = createLandTokenContract();
 const web3 = new Web3("https://alfajores-forno.celo-testnet.org");
+// const web3 = new Web3("https://forno.celo.org");
+
 const burnAddress = "0x0000000000000000000000000000000000000000";
 
 const setLandTokenInfo = async (tokenId, initialAmount) => {
@@ -23,9 +25,9 @@ const setLandTokenInfo = async (tokenId, initialAmount) => {
     .setLandTokenInfo(tokenId, initialAmount)
     .encodeABI();
 
-  const gas = 480000;
+  const gas = 48000;
   const gasPrice = web3.utils.toHex(await getGasPrice());
-  const nonce = web3.utils.toHex(await getNonce());
+  const nonce = web3.utils.toHex(await getNonce()) + 1;
 
   let txParams = {
     from: web3.utils.toChecksumAddress(address),
@@ -62,9 +64,9 @@ const addNewInvestment = async (investor, tokenId, amount, tokenPrice) => {
     .newInvestment(investor, tokenId, amount, tokenPrice)
     .encodeABI();
 
-  const gas = 480000;
+  const gas = 48000;
   const gasPrice = web3.utils.toHex(await getGasPrice());
-  const nonce = web3.utils.toHex(await getNonce());
+  const nonce = web3.utils.toHex(await getNonce()) + 1;
 
   let txParams = {
     from: web3.utils.toChecksumAddress(address),
