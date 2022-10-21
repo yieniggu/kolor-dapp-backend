@@ -22,7 +22,7 @@ const { getInitialTCO2perYear } = require("../utils/web3Utils");
 /* Returns all minted and not burned NFTS */
 const getNFTsMinted = async (req, res = response) => {
   //console.log(req.body);
-  console.log(req.params);
+  //console.log(req.params);
 
   try {
     const mintedNFTs = await getMintedNFTs();
@@ -101,7 +101,7 @@ const getLandVCUs = async (req, res = response) => {
 const mintNFT = async (req, res = response) => {
   const { landAttributes, species, points } = req.body;
 
-  //console.log(req.body);
+  console.log(req.body);
 
   try {
     const initialTCO2 = getInitialTCO2perYear(species);
@@ -111,7 +111,9 @@ const mintNFT = async (req, res = response) => {
     const mintingReceipt = await safeMint(landAttributes);
     const landTokenMintingReceipt = await setLandTokenInfo(
       mintingReceipt.tokenId,
-      landAttributes.size / 10
+      landAttributes.size,
+      landAttributes.tokenPrice,
+      landAttributes.unit
     );
 
     const receipts = [
@@ -119,7 +121,7 @@ const mintNFT = async (req, res = response) => {
       { transaction: "Land Tokens", receipt: landTokenMintingReceipt },
     ];
 
-    if (species) {
+    if (species.length > 0) {
       const setSpeciesReceipt = await setSpecies(
         mintingReceipt.tokenId,
         species,
@@ -128,7 +130,7 @@ const mintNFT = async (req, res = response) => {
       receipts.push({ transaction: "Set Species", receipt: setSpeciesReceipt });
     }
 
-    if (points) {
+    if (points.length > 0) {
       const setPointsReceipt = await setPoints(mintingReceipt.tokenId, points);
       receipts.push({ transaction: "Set Points", receipt: setPointsReceipt });
     }

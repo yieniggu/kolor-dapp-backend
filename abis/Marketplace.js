@@ -28,27 +28,10 @@ const marketplaceAbi = [
   },
   {
     type: "function",
-    stateMutability: "nonpayable",
-    outputs: [],
-    name: "addOffsetsEmissionsOfBuyer",
-    inputs: [
-      { type: "uint256", name: "tokenId", internalType: "uint256" },
-      { type: "uint256", name: "emissions", internalType: "uint256" },
-      { type: "uint256", name: "vcuPrice", internalType: "uint256" },
-      { type: "address", name: "account", internalType: "address" },
-    ],
-  },
-  {
-    type: "function",
-    stateMutability: "nonpayable",
-    outputs: [],
-    name: "addOffsetsEmmisionsOfLand",
-    inputs: [
-      { type: "uint256", name: "tokenId", internalType: "uint256" },
-      { type: "uint256", name: "emissions", internalType: "uint256" },
-      { type: "uint256", name: "vcuPrice", internalType: "uint256" },
-      { type: "address", name: "account", internalType: "address" },
-    ],
+    stateMutability: "view",
+    outputs: [{ type: "address", name: "", internalType: "address" }],
+    name: "KolorLandTokenAddress",
+    inputs: [],
   },
   {
     type: "function",
@@ -59,9 +42,19 @@ const marketplaceAbi = [
   },
   {
     type: "function",
+    stateMutability: "nonpayable",
+    outputs: [],
+    name: "buyLandTokens",
+    inputs: [
+      { type: "uint256", name: "tokenId", internalType: "uint256" },
+      { type: "uint256", name: "amount", internalType: "uint256" },
+    ],
+  },
+  {
+    type: "function",
     stateMutability: "view",
-    outputs: [{ type: "uint256", name: "", internalType: "uint256" }],
-    name: "getBalance",
+    outputs: [{ type: "address", name: "", internalType: "address" }],
+    name: "cUSDAddress",
     inputs: [],
   },
   {
@@ -73,133 +66,10 @@ const marketplaceAbi = [
   },
   {
     type: "function",
-    stateMutability: "payable",
-    outputs: [],
-    name: "offsetEmissions",
-    inputs: [
-      { type: "uint256", name: "tokenId", internalType: "uint256" },
-      { type: "uint256", name: "emissions", internalType: "uint256" },
-      { type: "uint256", name: "vcuPrice", internalType: "uint256" },
-      { type: "address", name: "account", internalType: "address" },
-    ],
-  },
-  {
-    type: "function",
     stateMutability: "view",
-    outputs: [
-      {
-        type: "tuple",
-        name: "",
-        internalType: "struct OffsetEmission",
-        components: [
-          { type: "uint256", name: "vcuOffset", internalType: "uint256" },
-          { type: "uint256", name: "offsetDate", internalType: "uint256" },
-          { type: "uint256", name: "vcuPrice", internalType: "uint256" },
-          { type: "uint256", name: "tokenId", internalType: "uint256" },
-          { type: "address", name: "account", internalType: "address" },
-        ],
-      },
-    ],
-    name: "offsetInfo",
-    inputs: [
-      { type: "uint256", name: "offsetId", internalType: "uint256" },
-      { type: "address", name: "account", internalType: "address" },
-    ],
-  },
-  {
-    type: "function",
-    stateMutability: "view",
-    outputs: [
-      {
-        type: "tuple",
-        name: "",
-        internalType: "struct OffsetEmission",
-        components: [
-          { type: "uint256", name: "vcuOffset", internalType: "uint256" },
-          { type: "uint256", name: "offsetDate", internalType: "uint256" },
-          { type: "uint256", name: "vcuPrice", internalType: "uint256" },
-          { type: "uint256", name: "tokenId", internalType: "uint256" },
-          { type: "address", name: "account", internalType: "address" },
-        ],
-      },
-    ],
-    name: "offsetInfo",
-    inputs: [
-      { type: "uint256", name: "offsetId", internalType: "uint256" },
-      { type: "uint256", name: "tokenId", internalType: "uint256" },
-    ],
-  },
-  {
-    type: "function",
-    stateMutability: "view",
-    outputs: [
-      { type: "uint256", name: "vcuOffset", internalType: "uint256" },
-      { type: "uint256", name: "offsetDate", internalType: "uint256" },
-      { type: "uint256", name: "vcuPrice", internalType: "uint256" },
-      { type: "uint256", name: "tokenId", internalType: "uint256" },
-      { type: "address", name: "account", internalType: "address" },
-    ],
-    name: "offsetsByAddress",
-    inputs: [
-      { type: "address", name: "", internalType: "address" },
-      { type: "uint256", name: "", internalType: "uint256" },
-    ],
-  },
-  {
-    type: "function",
-    stateMutability: "view",
-    outputs: [
-      { type: "uint256", name: "vcuOffset", internalType: "uint256" },
-      { type: "uint256", name: "offsetDate", internalType: "uint256" },
-      { type: "uint256", name: "vcuPrice", internalType: "uint256" },
-      { type: "uint256", name: "tokenId", internalType: "uint256" },
-      { type: "address", name: "account", internalType: "address" },
-    ],
-    name: "offsetsByLand",
-    inputs: [
-      { type: "uint256", name: "", internalType: "uint256" },
-      { type: "uint256", name: "", internalType: "uint256" },
-    ],
-  },
-  {
-    type: "function",
-    stateMutability: "view",
-    outputs: [
-      {
-        type: "tuple[]",
-        name: "",
-        internalType: "struct OffsetEmission[]",
-        components: [
-          { type: "uint256", name: "vcuOffset", internalType: "uint256" },
-          { type: "uint256", name: "offsetDate", internalType: "uint256" },
-          { type: "uint256", name: "vcuPrice", internalType: "uint256" },
-          { type: "uint256", name: "tokenId", internalType: "uint256" },
-          { type: "address", name: "account", internalType: "address" },
-        ],
-      },
-    ],
-    name: "offsetsOf",
-    inputs: [{ type: "uint256", name: "tokenId", internalType: "uint256" }],
-  },
-  {
-    type: "function",
-    stateMutability: "view",
-    outputs: [
-      {
-        type: "tuple[]",
-        name: "",
-        internalType: "struct OffsetEmission[]",
-        components: [
-          { type: "uint256", name: "vcuOffset", internalType: "uint256" },
-          { type: "uint256", name: "offsetDate", internalType: "uint256" },
-          { type: "uint256", name: "vcuPrice", internalType: "uint256" },
-          { type: "uint256", name: "tokenId", internalType: "uint256" },
-          { type: "address", name: "account", internalType: "address" },
-        ],
-      },
-    ],
-    name: "offsetsOf",
-    inputs: [{ type: "address", name: "account", internalType: "address" }],
+    outputs: [{ type: "address", name: "", internalType: "address" }],
+    name: "kolorAddress",
+    inputs: [],
   },
   {
     type: "function",
@@ -212,6 +82,13 @@ const marketplaceAbi = [
       { type: "uint256", name: "tokenId", internalType: "uint256" },
       { type: "bytes", name: "data", internalType: "bytes" },
     ],
+  },
+  {
+    type: "function",
+    stateMutability: "view",
+    outputs: [{ type: "uint256", name: "", internalType: "uint256" }],
+    name: "oneETH",
+    inputs: [],
   },
   {
     type: "function",
@@ -238,36 +115,35 @@ const marketplaceAbi = [
     type: "function",
     stateMutability: "nonpayable",
     outputs: [],
+    name: "setKolorAddress",
+    inputs: [
+      { type: "address", name: "_kolorAddress", internalType: "address" },
+    ],
+  },
+  {
+    type: "function",
+    stateMutability: "nonpayable",
+    outputs: [],
+    name: "setLandTokenAddress",
+    inputs: [
+      { type: "address", name: "_landTokenAddress", internalType: "address" },
+    ],
+  },
+  {
+    type: "function",
+    stateMutability: "nonpayable",
+    outputs: [],
     name: "setNFTAddress",
     inputs: [{ type: "address", name: "_NFTAddress", internalType: "address" }],
   },
   {
     type: "function",
-    stateMutability: "view",
-    outputs: [{ type: "uint256", name: "", internalType: "uint256" }],
-    name: "totalOffsetsOf",
-    inputs: [{ type: "uint256", name: "tokenId", internalType: "uint256" }],
-  },
-  {
-    type: "function",
-    stateMutability: "view",
-    outputs: [{ type: "uint256", name: "", internalType: "uint256" }],
-    name: "totalOffsetsOf",
-    inputs: [{ type: "address", name: "account", internalType: "address" }],
-  },
-  {
-    type: "function",
-    stateMutability: "view",
-    outputs: [{ type: "uint256", name: "", internalType: "uint256" }],
-    name: "totalOffsetsOfAddress",
-    inputs: [{ type: "address", name: "", internalType: "address" }],
-  },
-  {
-    type: "function",
-    stateMutability: "view",
-    outputs: [{ type: "uint256", name: "", internalType: "uint256" }],
-    name: "totalOffsetsOfLand",
-    inputs: [{ type: "uint256", name: "", internalType: "uint256" }],
+    stateMutability: "nonpayable",
+    outputs: [],
+    name: "setcUSDAddress",
+    inputs: [
+      { type: "address", name: "_cUSDAddress", internalType: "address" },
+    ],
   },
   {
     type: "function",

@@ -4,47 +4,35 @@ const {
   getNonce,
   createMarketplaceContract,
 } = require("./web3Common");
+const { newKit, CeloContract } = require("@celo/contractkit");
 
-const marketplaceContract = createMarketplaceContract();
-// const web3 = new Web3("https://alfajores-forno.celo-testnet.org");
-const web3 = new Web3("https://forno.celo.org");
+const web3 = new Web3("https://alfajores-forno.celo-testnet.org");
+// const web3 = new Web3("https://forno.celo.org");
+
 const burnAddress = "0x0000000000000000000000000000000000000000";
 
-const offsetEmissions = async (tokenId, emissions, buyer) => {
-  const { address } = web3.eth.accounts.privateKeyToAccount(
-    process.env.DEV_PRIVATE_KEY
+const buyLandTokens = async (tokenId, amount, user) => {
+  const kit = newKit("https://alfajores-forno.celo-testnet.org");
+  const marketplaceContract = createMarketplaceContract(kit);
+
+  const { address, privateKey } = user;
+
+  kit.defaultAccount = address;
+  kit.connection.addAccount(privateKey);
+
+  console.log("info of investment: ", tokenId, amount);
+  await kit.setFeeCurrency(CeloContract.StableToken);
+
+  const tx = await kit.connection.sendTransactionObject(
+    marketplaceContract.methods.buyLandTokens(tokenId, amount)
   );
 
-  const encodedTransaction = await marketplaceContract.methods
-    .offsetEmissions(tokenId, emissions, buyer)
-    .encodeABI();
+  const receipt = await tx.waitReceipt();
 
-  const gas = 480000;
-  const gasPrice = web3.utils.toHex(await getGasPrice());
-  const nonce = web3.utils.toHex(await getNonce());
-
-  let txParams = {
-    from: web3.utils.toChecksumAddress(address),
-    to: process.env.MARKETPLACE_ADDRESS,
-    gas,
-    gasPrice,
-    nonce,
-    data: encodedTransaction,
-  };
-
-  // Signs transaction to execute with private key on backend side
-  const signedTransaction = await web3.eth.accounts.signTransaction(
-    txParams,
-    process.env.DEV_PRIVATE_KEY
-  );
-
-  const receipt = await web3.eth.sendSignedTransaction(
-    signedTransaction.raw || signedTransaction.rawTransaction
-  );
-
+  console.log(receipt);
   return receipt;
 };
 
 module.exports = {
-  offsetEmissions,
+  buyLandTokens,
 };

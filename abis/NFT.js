@@ -81,13 +81,10 @@ const NFTAbi = [
   },
   {
     type: "function",
-    stateMutability: "nonpayable",
-    outputs: [],
-    name: "addBuyer",
-    inputs: [
-      { type: "uint256", name: "tokenId", internalType: "uint256" },
-      { type: "address", name: "newBuyer", internalType: "address" },
-    ],
+    stateMutability: "view",
+    outputs: [{ type: "uint256", name: "", internalType: "uint256" }],
+    name: "_totalLands",
+    inputs: [],
   },
   {
     type: "function",
@@ -169,23 +166,6 @@ const NFTAbi = [
   },
   {
     type: "function",
-    stateMutability: "nonpayable",
-    outputs: [],
-    name: "burn",
-    inputs: [{ type: "uint256", name: "tokenId", internalType: "uint256" }],
-  },
-  {
-    type: "function",
-    stateMutability: "view",
-    outputs: [{ type: "bool", name: "", internalType: "bool" }],
-    name: "buyers",
-    inputs: [
-      { type: "uint256", name: "", internalType: "uint256" },
-      { type: "address", name: "", internalType: "address" },
-    ],
-  },
-  {
-    type: "function",
     stateMutability: "view",
     outputs: [{ type: "address", name: "", internalType: "address" }],
     name: "getApproved",
@@ -217,6 +197,7 @@ const NFTAbi = [
           },
           { type: "uint256", name: "soldTCO2", internalType: "uint256" },
           { type: "uint256", name: "creationDate", internalType: "uint256" },
+          { type: "string", name: "unit", internalType: "string" },
         ],
       },
     ],
@@ -258,10 +239,10 @@ const NFTAbi = [
     type: "function",
     stateMutability: "view",
     outputs: [{ type: "bool", name: "", internalType: "bool" }],
-    name: "isBuyerOf",
+    name: "isLandOwner",
     inputs: [
+      { type: "address", name: "landOwner", internalType: "address" },
       { type: "uint256", name: "tokenId", internalType: "uint256" },
-      { type: "address", name: "buyer", internalType: "address" },
     ],
   },
   {
@@ -276,6 +257,13 @@ const NFTAbi = [
     stateMutability: "view",
     outputs: [{ type: "bool", name: "", internalType: "bool" }],
     name: "isRemoved",
+    inputs: [{ type: "uint256", name: "tokenId", internalType: "uint256" }],
+  },
+  {
+    type: "function",
+    stateMutability: "view",
+    outputs: [{ type: "uint256", name: "", internalType: "uint256" }],
+    name: "landIndexOf",
     inputs: [{ type: "uint256", name: "tokenId", internalType: "uint256" }],
   },
   {
@@ -308,16 +296,6 @@ const NFTAbi = [
     outputs: [{ type: "string", name: "", internalType: "string" }],
     name: "name",
     inputs: [],
-  },
-  {
-    type: "function",
-    stateMutability: "nonpayable",
-    outputs: [],
-    name: "offsetEmissions",
-    inputs: [
-      { type: "uint256", name: "tokenId", internalType: "uint256" },
-      { type: "uint256", name: "amount", internalType: "uint256" },
-    ],
   },
   {
     type: "function",
@@ -373,6 +351,7 @@ const NFTAbi = [
       { type: "string", name: "stateOrRegion", internalType: "string" },
       { type: "string", name: "city", internalType: "string" },
       { type: "uint256", name: "initialTCO2", internalType: "uint256" },
+      { type: "string", name: "unit", internalType: "string" },
     ],
   },
   {
@@ -395,7 +374,7 @@ const NFTAbi = [
       { type: "address", name: "from", internalType: "address" },
       { type: "address", name: "to", internalType: "address" },
       { type: "uint256", name: "tokenId", internalType: "uint256" },
-      { type: "bytes", name: "_data", internalType: "bytes" },
+      { type: "bytes", name: "data", internalType: "bytes" },
     ],
   },
   {
@@ -403,10 +382,7 @@ const NFTAbi = [
     stateMutability: "nonpayable",
     outputs: [],
     name: "safeTransferToMarketplace",
-    inputs: [
-      { type: "address", name: "from", internalType: "address" },
-      { type: "uint256", name: "tokenId", internalType: "uint256" },
-    ],
+    inputs: [{ type: "uint256", name: "tokenId", internalType: "uint256" }],
   },
   {
     type: "function",
@@ -536,23 +512,6 @@ const NFTAbi = [
   {
     type: "function",
     stateMutability: "view",
-    outputs: [{ type: "uint256", name: "", internalType: "uint256" }],
-    name: "tokenByIndex",
-    inputs: [{ type: "uint256", name: "index", internalType: "uint256" }],
-  },
-  {
-    type: "function",
-    stateMutability: "view",
-    outputs: [{ type: "uint256", name: "", internalType: "uint256" }],
-    name: "tokenOfOwnerByIndex",
-    inputs: [
-      { type: "address", name: "owner", internalType: "address" },
-      { type: "uint256", name: "index", internalType: "uint256" },
-    ],
-  },
-  {
-    type: "function",
-    stateMutability: "view",
     outputs: [{ type: "string", name: "", internalType: "string" }],
     name: "tokenURI",
     inputs: [{ type: "uint256", name: "tokenId", internalType: "uint256" }],
@@ -561,15 +520,15 @@ const NFTAbi = [
     type: "function",
     stateMutability: "view",
     outputs: [{ type: "uint256", name: "", internalType: "uint256" }],
-    name: "totalBuyers",
-    inputs: [{ type: "uint256", name: "", internalType: "uint256" }],
+    name: "totalLandOwnedOf",
+    inputs: [{ type: "address", name: "landOwner", internalType: "address" }],
   },
   {
     type: "function",
     stateMutability: "view",
     outputs: [{ type: "uint256", name: "", internalType: "uint256" }],
-    name: "totalLandOwnedOf",
-    inputs: [{ type: "address", name: "landOwner", internalType: "address" }],
+    name: "totalLands",
+    inputs: [],
   },
   {
     type: "function",
@@ -598,13 +557,6 @@ const NFTAbi = [
     outputs: [{ type: "uint256", name: "", internalType: "uint256" }],
     name: "totalSpeciesOf",
     inputs: [{ type: "uint256", name: "tokenId", internalType: "uint256" }],
-  },
-  {
-    type: "function",
-    stateMutability: "view",
-    outputs: [{ type: "uint256", name: "", internalType: "uint256" }],
-    name: "totalSupply",
-    inputs: [],
   },
   {
     type: "function",
@@ -640,17 +592,6 @@ const NFTAbi = [
     outputs: [],
     name: "transferOwnership",
     inputs: [{ type: "address", name: "newOwner", internalType: "address" }],
-  },
-  {
-    type: "function",
-    stateMutability: "nonpayable",
-    outputs: [],
-    name: "updateLandOwner",
-    inputs: [
-      { type: "uint256", name: "tokenId", internalType: "uint256" },
-      { type: "address", name: "newLandOwner", internalType: "address" },
-      { type: "string", name: "name", internalType: "string" },
-    ],
   },
   {
     type: "function",

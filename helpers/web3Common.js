@@ -4,8 +4,8 @@ const { landTokenAbi } = require("../abis/LandToken");
 const { marketplaceAbi } = require("../abis/Marketplace");
 const { NFTAbi } = require("../abis/NFT");
 
-// const web3 = new Web3("https://alfajores-forno.celo-testnet.org");
-const web3 = new Web3("https://forno.celo.org");
+const web3 = new Web3("https://alfajores-forno.celo-testnet.org");
+// const web3 = new Web3("https://forno.celo.org");
 
 const createWallet = async () => {
   const { address, privateKey } = await web3.eth.accounts.create();
@@ -23,8 +23,8 @@ const createNFTContract = () => {
   return contract;
 };
 
-const createMarketplaceContract = () => {
-  const contract = new web3.eth.Contract(
+const createMarketplaceContract = (kit) => {
+  const contract = new kit.connection.web3.eth.Contract(
     marketplaceAbi,
     process.env.MARKETPLACE_ADDRESS
   );
@@ -32,8 +32,17 @@ const createMarketplaceContract = () => {
   return contract;
 };
 
-const createLandTokenContract = () => {
-  const contract = new web3.eth.Contract(
+// const createLandTokenContract = () => {
+//   const contract = new web3.eth.Contract(
+//     landTokenAbi,
+//     process.env.LAND_TOKEN_ADDRESS
+//   );
+
+//   return contract;
+// };
+
+const createLandTokenContract = (kit) => {
+  const contract = new kit.connection.web3.eth.Contract(
     landTokenAbi,
     process.env.LAND_TOKEN_ADDRESS
   );

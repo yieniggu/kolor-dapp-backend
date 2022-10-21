@@ -9,6 +9,37 @@ const landTokenAbi = [
   },
   {
     type: "event",
+    name: "NewInvestment",
+    inputs: [
+      {
+        type: "address",
+        name: "investor",
+        internalType: "address",
+        indexed: false,
+      },
+      {
+        type: "uint256",
+        name: "tokenId",
+        internalType: "uint256",
+        indexed: false,
+      },
+      {
+        type: "uint256",
+        name: "amount",
+        internalType: "uint256",
+        indexed: false,
+      },
+      {
+        type: "uint256",
+        name: "tokenPrice",
+        internalType: "uint256",
+        indexed: false,
+      },
+    ],
+    anonymous: false,
+  },
+  {
+    type: "event",
     name: "OwnershipTransferred",
     inputs: [
       {
@@ -94,6 +125,13 @@ const landTokenAbi = [
     type: "function",
     stateMutability: "view",
     outputs: [{ type: "uint256", name: "", internalType: "uint256" }],
+    name: "creationOf",
+    inputs: [{ type: "uint256", name: "tokenId", internalType: "uint256" }],
+  },
+  {
+    type: "function",
+    stateMutability: "view",
+    outputs: [{ type: "uint256", name: "", internalType: "uint256" }],
     name: "getLandTokenBalance",
     inputs: [{ type: "uint256", name: "tokenId", internalType: "uint256" }],
   },
@@ -126,6 +164,7 @@ const landTokenAbi = [
           { type: "address", name: "account", internalType: "address" },
           { type: "uint256", name: "amount", internalType: "uint256" },
           { type: "uint256", name: "tokenPrice", internalType: "uint256" },
+          { type: "string", name: "unit", internalType: "string" },
           { type: "uint256", name: "creationDate", internalType: "uint256" },
         ],
       },
@@ -149,6 +188,7 @@ const landTokenAbi = [
           { type: "address", name: "account", internalType: "address" },
           { type: "uint256", name: "amount", internalType: "uint256" },
           { type: "uint256", name: "tokenPrice", internalType: "uint256" },
+          { type: "string", name: "unit", internalType: "string" },
           { type: "uint256", name: "creationDate", internalType: "uint256" },
         ],
       },
@@ -167,6 +207,7 @@ const landTokenAbi = [
       { type: "address", name: "account", internalType: "address" },
       { type: "uint256", name: "amount", internalType: "uint256" },
       { type: "uint256", name: "tokenPrice", internalType: "uint256" },
+      { type: "string", name: "unit", internalType: "string" },
       { type: "uint256", name: "creationDate", internalType: "uint256" },
     ],
     name: "investmentsByAddress",
@@ -183,6 +224,7 @@ const landTokenAbi = [
       { type: "address", name: "account", internalType: "address" },
       { type: "uint256", name: "amount", internalType: "uint256" },
       { type: "uint256", name: "tokenPrice", internalType: "uint256" },
+      { type: "string", name: "unit", internalType: "string" },
       { type: "uint256", name: "creationDate", internalType: "uint256" },
     ],
     name: "investmentsByLand",
@@ -204,6 +246,7 @@ const landTokenAbi = [
           { type: "address", name: "account", internalType: "address" },
           { type: "uint256", name: "amount", internalType: "uint256" },
           { type: "uint256", name: "tokenPrice", internalType: "uint256" },
+          { type: "string", name: "unit", internalType: "string" },
           { type: "uint256", name: "creationDate", internalType: "uint256" },
         ],
       },
@@ -224,6 +267,7 @@ const landTokenAbi = [
           { type: "address", name: "account", internalType: "address" },
           { type: "uint256", name: "amount", internalType: "uint256" },
           { type: "uint256", name: "tokenPrice", internalType: "uint256" },
+          { type: "string", name: "unit", internalType: "string" },
           { type: "uint256", name: "creationDate", internalType: "uint256" },
         ],
       },
@@ -249,15 +293,47 @@ const landTokenAbi = [
     type: "function",
     stateMutability: "view",
     outputs: [
+      {
+        type: "tuple",
+        name: "",
+        internalType: "struct LandTokensInfo",
+        components: [
+          { type: "uint256", name: "initialAmount", internalType: "uint256" },
+          { type: "uint256", name: "currentAmount", internalType: "uint256" },
+          { type: "uint256", name: "available", internalType: "uint256" },
+          { type: "uint256", name: "sold", internalType: "uint256" },
+          { type: "uint256", name: "creationDate", internalType: "uint256" },
+          { type: "uint256", name: "lastUpdate", internalType: "uint256" },
+          { type: "uint256", name: "tokenPrice", internalType: "uint256" },
+          { type: "string", name: "unit", internalType: "string" },
+        ],
+      },
+    ],
+    name: "landTokenInfoOf",
+    inputs: [{ type: "uint256", name: "tokenId", internalType: "uint256" }],
+  },
+  {
+    type: "function",
+    stateMutability: "view",
+    outputs: [
       { type: "uint256", name: "initialAmount", internalType: "uint256" },
       { type: "uint256", name: "currentAmount", internalType: "uint256" },
       { type: "uint256", name: "available", internalType: "uint256" },
       { type: "uint256", name: "sold", internalType: "uint256" },
       { type: "uint256", name: "creationDate", internalType: "uint256" },
       { type: "uint256", name: "lastUpdate", internalType: "uint256" },
+      { type: "uint256", name: "tokenPrice", internalType: "uint256" },
+      { type: "string", name: "unit", internalType: "string" },
     ],
     name: "landTokensInfo",
     inputs: [{ type: "uint256", name: "", internalType: "uint256" }],
+  },
+  {
+    type: "function",
+    stateMutability: "view",
+    outputs: [{ type: "uint256", name: "", internalType: "uint256" }],
+    name: "lastUpdateOf",
+    inputs: [{ type: "uint256", name: "tokenId", internalType: "uint256" }],
   },
   {
     type: "function",
@@ -275,7 +351,6 @@ const landTokenAbi = [
       { type: "address", name: "investor", internalType: "address" },
       { type: "uint256", name: "tokenId", internalType: "uint256" },
       { type: "uint256", name: "amount", internalType: "uint256" },
-      { type: "uint256", name: "tokenPrice", internalType: "uint256" },
     ],
   },
   {
@@ -284,6 +359,13 @@ const landTokenAbi = [
     outputs: [{ type: "address", name: "", internalType: "address" }],
     name: "owner",
     inputs: [],
+  },
+  {
+    type: "function",
+    stateMutability: "view",
+    outputs: [{ type: "uint256", name: "", internalType: "uint256" }],
+    name: "priceOf",
+    inputs: [{ type: "uint256", name: "tokenId", internalType: "uint256" }],
   },
   {
     type: "function",
@@ -326,6 +408,8 @@ const landTokenAbi = [
     inputs: [
       { type: "uint256", name: "tokenId", internalType: "uint256" },
       { type: "uint256", name: "initialAmount", internalType: "uint256" },
+      { type: "uint256", name: "tokenPrice", internalType: "uint256" },
+      { type: "string", name: "unit", internalType: "string" },
     ],
   },
   {
@@ -334,6 +418,16 @@ const landTokenAbi = [
     outputs: [],
     name: "setMarketplaceAddress",
     inputs: [{ type: "address", name: "newAddress", internalType: "address" }],
+  },
+  {
+    type: "function",
+    stateMutability: "nonpayable",
+    outputs: [],
+    name: "setTokenPrice",
+    inputs: [
+      { type: "uint256", name: "tokenId", internalType: "uint256" },
+      { type: "uint256", name: "price", internalType: "uint256" },
+    ],
   },
   {
     type: "function",
@@ -383,6 +477,13 @@ const landTokenAbi = [
     outputs: [],
     name: "transferOwnership",
     inputs: [{ type: "address", name: "newOwner", internalType: "address" }],
+  },
+  {
+    type: "function",
+    stateMutability: "view",
+    outputs: [{ type: "string", name: "", internalType: "string" }],
+    name: "unitOf",
+    inputs: [{ type: "uint256", name: "tokenId", internalType: "uint256" }],
   },
 ];
 
