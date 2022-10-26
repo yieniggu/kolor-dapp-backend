@@ -32,7 +32,8 @@ const getTokenBalances = async (req, res = response) => {
         nativeBalances,
         landTokenBalances,
         address: user.address,
-        netWorth: nativeBalances.cUSDBalance + celoPrice,
+        netWorth:
+          nativeBalances.cUSDBalance + celoPrice * nativeBalances.celoBalance,
       },
     });
   } catch (error) {
