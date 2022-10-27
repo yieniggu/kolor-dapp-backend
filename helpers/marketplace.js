@@ -6,8 +6,8 @@ const {
 } = require("./web3Common");
 const { newKit, CeloContract } = require("@celo/contractkit");
 
-const web3 = new Web3("https://alfajores-forno.celo-testnet.org");
-// const web3 = new Web3("https://forno.celo.org");
+// const web3 = new Web3("https://alfajores-forno.celo-testnet.org");
+const web3 = new Web3("https://forno.celo.org");
 
 const burnAddress = "0x0000000000000000000000000000000000000000";
 
