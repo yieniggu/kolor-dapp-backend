@@ -343,6 +343,44 @@ const setPoints = async (tokenId, points) => {
   return receipt;
 };
 
+const publishLand = async (tokenId) => {
+  const { address } = web3.eth.accounts.privateKeyToAccount(
+    process.env.DEV_PRIVATE_KEY
+  );
+
+  const encodedTransaction = await NFTContract.methods
+    .safeTransferToMarketplace(tokenId)
+    .encodeABI();
+
+  const gas = 480000;
+  const gasPrice = web3.utils.toHex(await getGasPrice());
+  const nonce = web3.utils.toHex(await getNonce());
+
+  let txParams = {
+    from: web3.utils.toChecksumAddress(address),
+    to: process.env.NFT_ADDRESS,
+    gas,
+    gasPrice,
+    nonce,
+    data: encodedTransaction,
+  };
+  // Signs transaction to execute with private key on backend side
+  const signedTransaction = await web3.eth.accounts.signTransaction(
+    txParams,
+    process.env.DEV_PRIVATE_KEY
+  );
+
+  //console.log(signedTransaction);
+
+  const receipt = await web3.eth.sendSignedTransaction(
+    signedTransaction.raw || signedTransaction.rawTransaction
+  );
+
+  //console.log("set species receipt: ", receipt);
+
+  return receipt;
+};
+
 /* ############################ 
 
             UTILS
@@ -457,4 +495,5 @@ module.exports = {
   getVCUsEmitted,
   getNFTInfo,
   extractLandTokenProps,
+  publishLand,
 };

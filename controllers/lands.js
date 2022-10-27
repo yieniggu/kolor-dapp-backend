@@ -22,7 +22,7 @@ const { getInitialTCO2perYear } = require("../utils/web3Utils");
 /* Returns all minted and not burned NFTS */
 const getNFTsMinted = async (req, res = response) => {
   //console.log(req.body);
-  console.log(req.params);
+  //console.log(req.params);
 
   try {
     const mintedNFTs = await getMintedNFTs();

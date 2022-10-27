@@ -3,6 +3,8 @@ const { type } = require("express/lib/response");
 const { getInvestmentsOf } = require("../helpers/landToken");
 const { getNativeBalances, getLandTokenBalances } = require("../helpers/token");
 const User = require("../models/User");
+const redstone = require("redstone-api");
+const { roundValue } = require("../utils/web3Utils");
 
 /* Returns Celo and cUSD balances of account */
 const getTokenBalances = async (req, res = response) => {
@@ -19,10 +21,20 @@ const getTokenBalances = async (req, res = response) => {
 
     const nativeBalances = await getNativeBalances(user.address);
     const landTokenBalances = await getLandTokenBalances(user.address);
+    let celoPrice = await redstone.getPrice("CELO");
+
+    celoPrice = roundValue(celoPrice.value, 5);
+    console.log("celo price: ", celoPrice);
 
     return res.status(200).json({
       ok: true,
-      balances: { nativeBalances, landTokenBalances, address: user.address },
+      balances: {
+        nativeBalances,
+        landTokenBalances,
+        address: user.address,
+        netWorth:
+          nativeBalances.cUSDBalance + celoPrice * nativeBalances.celoBalance,
+      },
     });
   } catch (error) {
     console.error(error);

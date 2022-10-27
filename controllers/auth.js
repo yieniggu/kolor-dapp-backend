@@ -95,7 +95,7 @@ const login = async (req, res = response) => {
 };
 
 const refreshJWT = async (req, res = response) => {
-  console.log(req);
+  //console.log(req);
   const { uid, name, role } = req;
 
   // generate new token and return in request

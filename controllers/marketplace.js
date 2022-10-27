@@ -4,36 +4,14 @@ const {
   transfercUSD,
   getCeloBalance,
   transferCelo,
+  getcUSDBalance,
+  getAllowance,
+  approve,
 } = require("../helpers/token");
-const { addNewInvestment } = require("../helpers/landToken");
-const { getMintedNFTs } = require("../helpers/landNFT");
-const { offsetEmissions } = require("../helpers/marketplace");
+const { getMintedNFTs, publishLand } = require("../helpers/landNFT");
+const { offsetEmissions, buyLandTokens } = require("../helpers/marketplace");
 const User = require("../models/User");
-
-const newOffsetEmissions = async (req, res = response) => {
-  try {
-    const { tokenId, emissions, user } = req.body;
-
-    console.log("body: ", req.body);
-
-    const { address } = await User.findById(user.uid);
-    //console.log("foundUser: ", foundUser);
-
-    const receipt = await offsetEmissions(tokenId, emissions, address);
-
-    return res.status(401).json({
-      ok: true,
-      receipt,
-    });
-  } catch (error) {
-    console.error(error);
-
-    return res.status(500).json({
-      ok: false,
-      msg: "Internal sv error",
-    });
-  }
-};
+const { getTokenPrice } = require("../helpers/landToken");
 
 const newInvestment = async (req, res = response) => {
   const { amount } = req.body;
@@ -43,27 +21,34 @@ const newInvestment = async (req, res = response) => {
   //console.log("uid: ", uid);
 
   try {
+    const user = await User.findById(uid);
+    console.log(user);
     const { address, privateKey } = await User.findById(uid);
 
     //console.log("body: ", req.body);
     //console.log(address, privateKey);
 
-    const investmentReceipt = await addNewInvestment(
+    // get tokenPrice
+    const tokenPrice = await getTokenPrice(req.params.tokenId);
+
+    // get allowance
+    const allowance = await getAllowance(address);
+
+    if (allowance < amount * tokenPrice) {
+      // set spender receipt
+      console.log("allowance is lower");
+      const allowanceReceipt = await approve(address, privateKey);
+    }
+
+    // add investment
+    const investmentReceipt = await buyLandTokens(req.params.tokenId, amount, {
       address,
-      req.params.tokenId,
-      amount,
-      1
-    );
+      privateKey,
+    });
 
     return res.status(200).json({
       ok: true,
-      receipts: [
-        { transaction: "New investment", receipt: investmentReceipt },
-        {
-          transaction: "cUSD Transfer",
-          receipt: cUSDTransferReceipt,
-        },
-      ],
+      receipts: [{ transaction: "New investment", receipt: investmentReceipt }],
     });
   } catch (error) {
     console.error("Error on new investment controller: ", error);
@@ -84,6 +69,49 @@ const newInvestment = async (req, res = response) => {
   }
 };
 
+const newInvestment = async (req, res = response) => {
+  const { amount } = req.body;
+  console.log("amount: ", amount);
+
+  const { uid } = req;
+  console.log("uid: ", uid);
+
+  try {
+    const { address, privateKey } = await User.findById(uid);
+
+    console.log("body: ", req.body);
+    //console.log(address, privateKey);
+
+    const celoBalance = await getCeloBalance(address);
+
+    if (celoBalance < 0.0001) {
+      await transferCelo(address, 0.0001);
+    }
+
+    const cUSDTransferReceipt = await transfercUSD(
+      { address, privateKey },
+      amount.toString()
+    );
+    const investmentReceipt = await addNewInvestment(
+      address,
+      req.params.tokenId,
+      amount,
+      1
+    );
+
+    return res.status(200).json({
+      ok: true,
+      receipts: [{ transaction: "Land published", receipt }],
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      ok: false,
+      msg: "Internal server error",
+    });
+  }
+};
+
 const getPublishedLands = async (req, res = response) => {
   try {
     const mintedNFTs = await getMintedNFTs();
@@ -96,7 +124,7 @@ const getPublishedLands = async (req, res = response) => {
       publishedLands,
     });
   } catch (err) {
-    console.error(err);
+    //console.error(err);
 
     return res.status(500).json({
       ok: false,
@@ -106,7 +134,7 @@ const getPublishedLands = async (req, res = response) => {
 };
 
 module.exports = {
-  newOffsetEmissions,
   getPublishedLands,
   newInvestment,
+  publishLandToMarketplace,
 };

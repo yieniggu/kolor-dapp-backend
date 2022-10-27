@@ -4,7 +4,7 @@ const { getNFTtotalSupply } = require("./landNFT");
 const { getLandTokenBalancesOf } = require("./landToken");
 const { createERC20Contract } = require("./web3Common");
 
-const ContractKit = require("@celo/contractkit");
+const { newKit } = require("@celo/contractkit");
 
 const {
   createLandTokenContract,
@@ -13,7 +13,7 @@ const {
 } = require("./web3Common");
 
 const web3 = new Web3("https://forno.celo.org");
-const kit = ContractKit.newKitFromWeb3(web3);
+const kit = newKit("https://forno.celo.org");
 
 const burnAddress = "0x0000000000000000000000000000000000000000";
 const cUSDAddress = "0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1"; //testnet
@@ -51,21 +51,18 @@ const getLandTokenBalances = async (address) => {
 const getcUSDBalance = async (address) => {
   const balance = await cUSD.methods.balanceOf(address).call();
 
-  const balanceInEth = web3.utils.fromWei(balance, "ether");
-
-  console.log(balanceInEth);
-
-  if (balanceInEth % 1 == 0) {
-    return roundValue(balanceInEth, 2);
-  }
-  return roundValue(balanceInEth, 5);
+  return roundValue(web3.utils.fromWei(balance, "ether"), 2);
 };
 
 const getCeloBalance = async (address) => {
   const balance = await web3.eth.getBalance(address);
 
-  return roundValue(web3.utils.fromWei(balance, "ether"), 3);
+  return roundValue(web3.utils.fromWei(balance, "ether"), 2);
 };
+
+// const transferCelo = async (address) => {
+//   const receipt =
+// }
 
 const transferCelo = async (address, amount) => {
   const celoToken = await kit.contracts.getGoldToken();
@@ -85,11 +82,13 @@ const transferCelo = async (address, amount) => {
 
 const transfercUSD = async ({ address, privateKey }, amount) => {
   const cUSDToken = await kit.contracts.getStableToken();
+  console.log(address, privateKey, amount);
+
   kit.connection.addAccount(privateKey);
 
   const tx = await cUSDToken
     .transfer(process.env.DEV_ADDRESS, web3.utils.toWei(amount, "ether"))
-    .send({ from: address, feeCurrency: cUSDAddress });
+    .send({ from: address });
 
   const receipt = await tx.waitReceipt();
 
@@ -98,10 +97,59 @@ const transfercUSD = async ({ address, privateKey }, amount) => {
   return receipt;
 };
 
+// const transfercUSD = async ({ address, privateKey }, amount) => {
+//   const dev_address = process.env.DEV_ADDRESS;
+
+//   console.log(address, privateKey, amount);
+
+//   console.log(cUSD.methods);
+//   const encodedTransaction = await cUSD.methods
+//     .transfer(dev_address, amount)
+//     .encodeABI();
+
+//   console.log("tx_encoded");
+
+//   const gas = 480000;
+//   const gasPrice = web3.utils.toHex(await getGasPrice());
+//   const nonce = web3.utils.toHex((await getNonce()) + 1);
+
+//   console.log("gasprice and nonce");
+
+//   let txParams = {
+//     from: web3.utils.toChecksumAddress(address),
+//     to: cUSDAddress,
+//     gas,
+//     gasPrice,
+//     nonce,
+//     data: encodedTransaction,
+//   };
+
+//   console.log("txparams done");
+
+//   // Signs transaction to execute with private key on backend side
+//   const signedTransaction = await web3.eth.accounts.signTransaction(
+//     txParams,
+//     privateKey
+//   );
+
+//   console.log(signedTransaction);
+//   console.log("tx signed. awaiting receipt...");
+
+//   const receipt = await web3.eth.sendSignedTransaction(
+//     signedTransaction.raw || signedTransaction.rawTransaction
+//   );
+
+//   console.log("transfer cusd receipt: ", receipt);
+//   return receipt;
+// };
+
 module.exports = {
   getNativeBalances,
   getLandTokenBalances,
   getCeloBalance,
+  getcUSDBalance,
+  getAllowance,
   transfercUSD,
   transferCelo,
+  approve,
 };

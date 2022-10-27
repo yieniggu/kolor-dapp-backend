@@ -22,8 +22,8 @@ const createNFTContract = () => {
   return contract;
 };
 
-const createMarketplaceContract = () => {
-  const contract = new web3.eth.Contract(
+const createMarketplaceContract = (kit) => {
+  const contract = new kit.connection.web3.eth.Contract(
     marketplaceAbi,
     process.env.MARKETPLACE_ADDRESS
   );
@@ -31,8 +31,8 @@ const createMarketplaceContract = () => {
   return contract;
 };
 
-const createLandTokenContract = (kit) => {
-  const contract = new kit.connection.web3.eth.Contract(
+const createLandTokenContract = () => {
+  const contract = new web3.eth.Contract(
     landTokenAbi,
     process.env.LAND_TOKEN_ADDRESS
   );
