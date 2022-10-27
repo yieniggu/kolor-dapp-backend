@@ -23,8 +23,10 @@ app.use("/api/marketplace", require("./routes/marketplace"));
 app.use("/api/offsets", require("./routes/offsetRequest"));
 app.use("/api/tokens", require("./routes/token"));
 
+console.log(__dirname);
+
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "../client/build/index.html"));
+  res.sendFile(path.join(__dirname, "/public/index.html"));
 });
 
 // Listen requests
