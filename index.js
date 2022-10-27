@@ -2,7 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const { dbConnection } = require("./db/config");
 require("dotenv").config();
-
+const path = require("path");
 // Create express server
 const app = express();
 
@@ -23,9 +23,18 @@ app.use("/api/marketplace", require("./routes/marketplace"));
 app.use("/api/offsets", require("./routes/offsetRequest"));
 app.use("/api/tokens", require("./routes/token"));
 
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "../client/build/index.html"));
-});
+console.log(path.resolve(__dirname, "public", "index.html"));
+
+if (process.env.NODE_ENV === "production") {
+  // Exprees will serve up production assets
+  app.use(express.static("public"));
+
+  // Express serve up index.html file if it doesn't recognize route
+
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "public", "index.html"));
+  });
+}
 
 // Listen requests
 app.listen(process.env.PORT, () => {
