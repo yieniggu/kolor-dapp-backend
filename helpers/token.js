@@ -17,8 +17,8 @@ const web3 = new Web3("https://forno.celo.org");
 const kit = newKit("https://forno.celo.org");
 
 const burnAddress = "0x0000000000000000000000000000000000000000";
-const cUSDAddress = "0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1"; //testnet
-// const cUSDAddress = "0x765DE816845861e75A25fCA122bb6898B8B1282a"; //mainnet
+// const cUSDAddress = "0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1"; //testnet
+const cUSDAddress = "0x765DE816845861e75A25fCA122bb6898B8B1282a"; //mainnet
 
 const cUSD = createERC20Contract(cUSDAddress);
 

@@ -69,42 +69,18 @@ const newInvestment = async (req, res = response) => {
   }
 };
 
-const newInvestment = async (req, res = response) => {
-  const { amount } = req.body;
-  console.log("amount: ", amount);
-
-  const { uid } = req;
-  console.log("uid: ", uid);
-
+const publishLandToMarketplace = async (req, res = response) => {
+  const { tokenId } = req.params;
   try {
-    const { address, privateKey } = await User.findById(uid);
-
-    console.log("body: ", req.body);
-    //console.log(address, privateKey);
-
-    const celoBalance = await getCeloBalance(address);
-
-    if (celoBalance < 0.0001) {
-      await transferCelo(address, 0.0001);
-    }
-
-    const cUSDTransferReceipt = await transfercUSD(
-      { address, privateKey },
-      amount.toString()
-    );
-    const investmentReceipt = await addNewInvestment(
-      address,
-      req.params.tokenId,
-      amount,
-      1
-    );
+    const receipt = await publishLand(tokenId);
 
     return res.status(200).json({
       ok: true,
       receipts: [{ transaction: "Land published", receipt }],
     });
-  } catch (error) {
-    console.error(error);
+  } catch (err) {
+    console.error(err);
+
     return res.status(500).json({
       ok: false,
       msg: "Internal server error",
