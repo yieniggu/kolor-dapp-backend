@@ -4,7 +4,6 @@ const {
   getNonce,
   createMarketplaceContract,
 } = require("./web3Common");
-const { newKit, CeloContract } = require("@celo/contractkit");
 
 // const web3 = new Web3("https://alfajores-forno.celo-testnet.org");
 const web3 = new Web3("https://forno.celo.org");

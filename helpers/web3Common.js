@@ -5,7 +5,7 @@ const { marketplaceAbi } = require("../abis/Marketplace");
 const { NFTAbi } = require("../abis/NFT");
 
 // const web3 = new Web3("https://alfajores-forno.celo-testnet.org");
-const web3 = new Web3("https://forno.celo.org");
+const web3 = new Web3("https://forno.celo.org"); // mainnet
 
 const createWallet = async () => {
   const { address, privateKey } = await web3.eth.accounts.create();
