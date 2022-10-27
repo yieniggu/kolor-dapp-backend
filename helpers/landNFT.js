@@ -13,7 +13,7 @@ const fromExponential = require("from-exponential");
 const { getLandTokenInfo, getLandTokenHolders } = require("./landToken");
 
 const NFTContract = createNFTContract();
-const web3 = new Web3("https://alfajores-forno.celo-testnet.org");
+const web3 = new Web3("https://forno.celo.org");
 const burnAddress = "0x0000000000000000000000000000000000000000";
 
 /* ############################ 

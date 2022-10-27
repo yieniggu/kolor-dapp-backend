@@ -6,10 +6,10 @@ const {
 } = require("./web3Common");
 const { newKit, CeloContract } = require("@celo/contractkit");
 
-const web3 = new Web3("https://alfajores-forno.celo-testnet.org");
+const web3 = new Web3("https://forno.celo.org");
 
 const setLandTokenInfo = async (tokenId, initialAmount, tokenPrice, unit) => {
-  const kit = newKit("https://alfajores-forno.celo-testnet.org");
+  const kit = newKit("https://forno.celo.org");
 
   kit.defaultAccount = process.env.DEV_ADDRESS;
   kit.connection.addAccount(process.env.DEV_PRIVATE_KEY);
@@ -53,21 +53,21 @@ const setLandTokenInfo = async (tokenId, initialAmount, tokenPrice, unit) => {
 };
 
 const getLandTokenInfo = async (tokenId) => {
-  const kit = newKit("https://alfajores-forno.celo-testnet.org");
+  const kit = newKit("https://forno.celo.org");
 
   const landTokenContract = createLandTokenContract(kit);
   return await landTokenContract.methods.landTokensInfo(tokenId).call();
 };
 
 const getLandTokenHolders = async (tokenId) => {
-  const kit = newKit("https://alfajores-forno.celo-testnet.org");
+  const kit = newKit("https://forno.celo.org");
 
   const landTokenContract = createLandTokenContract(kit);
   return await landTokenContract.methods.holders(tokenId).call();
 };
 
 const getLandTokenBalancesOf = async (address, ids) => {
-  const kit = newKit("https://alfajores-forno.celo-testnet.org");
+  const kit = newKit("https://forno.celo.org");
 
   const landTokenContract = createLandTokenContract(kit);
   if (ids.length > 0) {
@@ -78,7 +78,7 @@ const getLandTokenBalancesOf = async (address, ids) => {
 };
 
 const getInvestmentsOf = async (address) => {
-  const kit = newKit("https://alfajores-forno.celo-testnet.org");
+  const kit = newKit("https://forno.celo.org");
 
   const landTokenContract = createLandTokenContract(kit);
   console.log(`get investments of: ${address}`);
@@ -92,7 +92,7 @@ const getInvestmentsOf = async (address) => {
 };
 
 const getTokenPrice = async (tokenId) => {
-  const kit = newKit("https://alfajores-forno.celo-testnet.org");
+  const kit = newKit("https://forno.celo.org");
 
   const landTokenContract = createLandTokenContract(kit);
   console.log(`get TOKENPRICE of: ${tokenId}`);
