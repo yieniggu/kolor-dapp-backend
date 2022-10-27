@@ -37,27 +37,17 @@ const newOffsetEmissions = async (req, res = response) => {
 
 const newInvestment = async (req, res = response) => {
   const { amount } = req.body;
-  console.log("amount: ", amount);
+  //console.log("amount: ", amount);
 
   const { uid } = req;
-  console.log("uid: ", uid);
+  //console.log("uid: ", uid);
 
   try {
     const { address, privateKey } = await User.findById(uid);
 
-    console.log("body: ", req.body);
+    //console.log("body: ", req.body);
     //console.log(address, privateKey);
 
-    const celoBalance = await getCeloBalance(address);
-
-    if (celoBalance < 0.0001) {
-      await transferCelo(address, 0.0001);
-    }
-
-    const cUSDTransferReceipt = await transfercUSD(
-      { address, privateKey },
-      amount.toString()
-    );
     const investmentReceipt = await addNewInvestment(
       address,
       req.params.tokenId,
@@ -76,7 +66,17 @@ const newInvestment = async (req, res = response) => {
       ],
     });
   } catch (error) {
-    console.error(error);
+    console.error("Error on new investment controller: ", error);
+    if (
+      error.message.includes("transfer value exceeded balance of sender") ||
+      error.message.includes("insufficient funds for gas")
+    ) {
+      return res.status(402).json({
+        ok: false,
+        errors: ["Not enough cUSD funds"],
+      });
+    }
+
     return res.status(500).json({
       ok: false,
       errors: ["Internal server error"],

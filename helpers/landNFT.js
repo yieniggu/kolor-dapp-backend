@@ -13,7 +13,6 @@ const fromExponential = require("from-exponential");
 const { getLandTokenInfo, getLandTokenHolders } = require("./landToken");
 
 const NFTContract = createNFTContract();
-// const web3 = new Web3("https://alfajores-forno.celo-testnet.org");
 const web3 = new Web3("https://forno.celo.org");
 const burnAddress = "0x0000000000000000000000000000000000000000";
 
@@ -28,7 +27,7 @@ const burnAddress = "0x0000000000000000000000000000000000000000";
 const getMintedNFTs = async () => {
   const mintedNFTS = [];
   //console.log(NFTContract.methods);
-  const totalSupply = await NFTContract.methods.totalSupply().call();
+  const totalSupply = await NFTContract.methods._totalLands().call();
   for (let i = 0; i < totalSupply; i++) {
     const owner = await NFTContract.methods.ownerOf(i).call();
 
@@ -70,7 +69,7 @@ const getNFTInfo = async (tokenId) => {
 };
 
 const getNFTtotalSupply = async () => {
-  return await NFTContract.methods.totalSupply().call();
+  return await NFTContract.methods._totalLands().call();
 };
 
 /* Gett all species of a given land */
@@ -164,6 +163,7 @@ const safeMint = async (landAttributes) => {
     stateOrRegion,
     city,
     initialTCO2,
+    unit,
   } = landAttributes;
 
   size = Number(size);
@@ -189,7 +189,8 @@ const safeMint = async (landAttributes) => {
       country,
       stateOrRegion,
       city,
-      normalizeNumber(initialTCO2, decimals)
+      normalizeNumber(initialTCO2, decimals),
+      unit
     )
     .encodeABI();
 
@@ -404,6 +405,7 @@ const extractNFTProps = (NFTInfo) => {
     soldTCO2,
     decimals,
     state,
+    unit,
   } = NFTInfo;
   return {
     identifier,
@@ -419,12 +421,20 @@ const extractNFTProps = (NFTInfo) => {
     soldTCO2,
     decimals,
     state,
+    unit,
   };
 };
 
 const extractLandTokenProps = (landTokenInfo) => {
-  const { available, initialAmount, currentAmount, sold, creationDate } =
-    landTokenInfo;
+  const {
+    available,
+    initialAmount,
+    currentAmount,
+    sold,
+    creationDate,
+    tokenPrice,
+    unit,
+  } = landTokenInfo;
 
   return {
     available,
@@ -432,6 +442,8 @@ const extractLandTokenProps = (landTokenInfo) => {
     currentAmount,
     sold,
     creationDate,
+    tokenPrice,
+    unit,
   };
 };
 

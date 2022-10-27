@@ -4,10 +4,12 @@ const {
   getNonce,
   createMarketplaceContract,
 } = require("./web3Common");
+const { newKitFromWeb3 } = require("@celo/contractkit");
 
 const marketplaceContract = createMarketplaceContract();
-// const web3 = new Web3("https://alfajores-forno.celo-testnet.org");
 const web3 = new Web3("https://forno.celo.org");
+const kit = newKitFromWeb3(web3);
+
 const burnAddress = "0x0000000000000000000000000000000000000000";
 
 const offsetEmissions = async (tokenId, emissions, buyer) => {

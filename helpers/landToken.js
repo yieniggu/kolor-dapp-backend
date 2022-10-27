@@ -1,19 +1,19 @@
-const { type } = require("express/lib/response");
 const Web3 = require("web3");
-
 const {
   createLandTokenContract,
   getGasPrice,
   getNonce,
 } = require("./web3Common");
+const { newKit, CeloContract } = require("@celo/contractkit");
 
-const landTokenContract = createLandTokenContract();
-//const web3 = new Web3("https://alfajores-forno.celo-testnet.org");
 const web3 = new Web3("https://forno.celo.org");
+const kit = newKit("https://forno.celo.org");
 
-const burnAddress = "0x0000000000000000000000000000000000000000";
+kit.defaultAccount = process.env.DEV_ADDRESS;
+kit.connection.addAccount(process.env.DEV_PRIVATE_KEY);
+const landTokenContract = createLandTokenContract(kit);
 
-const setLandTokenInfo = async (tokenId, initialAmount) => {
+const setLandTokenInfo = async (tokenId, initialAmount, tokenPrice, unit) => {
   const { address } = web3.eth.accounts.privateKeyToAccount(
     process.env.DEV_PRIVATE_KEY
   );
@@ -22,7 +22,7 @@ const setLandTokenInfo = async (tokenId, initialAmount) => {
   console.log("initial amount: ", initialAmount, typeof initialAmount);
   //console.log(landTokenContract.methods);
   const encodedTransaction = await landTokenContract.methods
-    .setLandTokenInfo(tokenId, initialAmount)
+    .setLandTokenInfo(tokenId, initialAmount, tokenPrice, unit)
     .encodeABI();
 
   const gas = 480000;
@@ -53,41 +53,21 @@ const setLandTokenInfo = async (tokenId, initialAmount) => {
 };
 
 const addNewInvestment = async (investor, tokenId, amount, tokenPrice) => {
-  const { address } = web3.eth.accounts.privateKeyToAccount(
-    process.env.DEV_PRIVATE_KEY
-  );
-
   console.log("info of investment: ", investor, tokenId, amount, tokenPrice);
+  await kit.setFeeCurrency(CeloContract.StableToken);
 
-  //console.log(landTokenContract.methods);
-  const encodedTransaction = await landTokenContract.methods
-    .newInvestment(investor, tokenId, amount, tokenPrice)
-    .encodeABI();
-
-  const gas = 480000;
-  const gasPrice = web3.utils.toHex(await getGasPrice());
-  const nonce = web3.utils.toHex(await getNonce());
-
-  let txParams = {
-    from: web3.utils.toChecksumAddress(address),
-    to: process.env.LAND_TOKEN_ADDRESS,
-    gas,
-    gasPrice,
-    nonce,
-    data: encodedTransaction,
-  };
-
-  // Signs transaction to execute with private key on backend side
-  const signedTransaction = await web3.eth.accounts.signTransaction(
-    txParams,
-    process.env.DEV_PRIVATE_KEY
+  const tx = await kit.connection.sendTransactionObject(
+    landTokenContract.methods.newInvestment(
+      investor,
+      tokenId,
+      amount,
+      tokenPrice
+    )
   );
 
-  const receipt = await web3.eth.sendSignedTransaction(
-    signedTransaction.raw || signedTransaction.rawTransaction
-  );
+  const receipt = await tx.waitReceipt();
 
-  console.log("set land token info receipt: ", receipt);
+  console.log(receipt);
   return receipt;
 };
 
