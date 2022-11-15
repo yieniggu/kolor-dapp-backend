@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.b4b5b4cb.css",
-    "main.js": "/static/js/main.837ccbc6.js",
+    "main.css": "/static/css/main.99eba094.css",
+    "main.js": "/static/js/main.e1a5dc93.js",
     "static/media/intro-background.png": "/static/media/intro-background.d9e729041032ca564d6d.png",
     "static/media/costa.jpg": "/static/media/costa.27388341f39e437aef01.jpg",
     "static/media/parque.jpg": "/static/media/parque.a583e5be14f607a67edd.jpg",
@@ -35,11 +35,11 @@
     "static/media/ico_menu.svg": "/static/media/ico_menu.6308260a875574777f836d03c8d950df.svg",
     "index.html": "/index.html",
     "static/media/ico_tick.svg": "/static/media/ico_tick.d937f939c3d84951868233b9c1d88c3a.svg",
-    "main.b4b5b4cb.css.map": "/static/css/main.b4b5b4cb.css.map",
-    "main.837ccbc6.js.map": "/static/js/main.837ccbc6.js.map"
+    "main.99eba094.css.map": "/static/css/main.99eba094.css.map",
+    "main.e1a5dc93.js.map": "/static/js/main.e1a5dc93.js.map"
   },
   "entrypoints": [
-    "static/css/main.b4b5b4cb.css",
-    "static/js/main.837ccbc6.js"
+    "static/css/main.99eba094.css",
+    "static/js/main.e1a5dc93.js"
   ]
 }
