@@ -108,11 +108,12 @@ const convertPointsToArray = (points) => {
     let { latitude, longitude } = coordinate;
 
     const decimals = maxDecimalsOf(coordinate);
+    console.log("convert points decimals: ", decimals);
 
     let coordinateAsArray = [];
     coordinateAsArray.push(
-      normalizeNumber(latitude),
-      normalizeNumber(longitude),
+      normalizeToBlockchain(latitude, decimals),
+      normalizeToBlockchain(longitude, decimals),
       decimals,
       0,
       0
@@ -154,41 +155,38 @@ const maxDecimalsOf = (object) => {
   return maxDecimals;
 };
 
-// This function normalize a number to account for decimals
-// given that solidity only work with integer numbers
-const normalizeNumber = (number, decimals = 0, round = true) => {
+const normalizeToBlockchain = (number, decimals = 0) => {
+  console.log("number: ", number);
+  let result = number * Math.pow(10, decimals);
+  console.log("normal to result: ", result, typeof result);
+
+  return Math.round(result);
+};
+
+const normalizeFromBlockchain = (number, decimals = 0, round = false) => {
   // number = Number(number);
   // decimals = Number(decimals);
-
-  let result = number * Math.pow(10, decimals);
-  //console.log(result);
-
-  result = result.toString();
+  let result = number.toString();
 
   if (result.includes("e")) {
     result = fromExponential(result);
+    console.log("from exp: ", result, typeof result);
   }
 
-  if (round) return Math.round(result);
+  if (!round) return result * Math.pow(10, decimals * -1);
 
   decimals = decimals.toString();
-  let rounded = roundValue(result, decimals * -1).toString();
+  let rounded = roundValue(result.toString(), 2).toString();
 
-  if (rounded.includes("e")) {
-    rounded = fromExponential(rounded);
-  }
+  //   if (rounded.includes("e")) {
+  //     rounded = fromExponential(rounded);
+  //   }
   return rounded;
 };
 
 const roundValue = (value, decimals) => {
-  value = value.toString();
-  console.log("decimals: ", decimals);
-  if (value.includes("e")) {
-    console.log("value includes e: ", value);
-    value = fromExponential(value);
-    console.log("after from exponential: ", value);
-  }
-
+  value = fromExponential(value);
+  console.log("from exp: ", value, typeof value);
   const result = Number(Math.round(value + "e+" + decimals) + "e-" + decimals);
   console.log("result: ", result);
 
@@ -209,7 +207,8 @@ const getInitialTCO2perYear = (species) => {
 
 module.exports = {
   maxDecimalsOf,
-  normalizeNumber,
+  normalizeToBlockchain,
+  normalizeFromBlockchain,
   convertSpeciesToArray,
   convertPointsToArray,
   getInitialTCO2perYear,

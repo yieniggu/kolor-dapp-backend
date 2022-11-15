@@ -7,6 +7,8 @@ const {
   convertSpeciesToArray,
   convertPointsToArray,
   oneYearInSeconds,
+  normalizeFromBlockchain,
+  normalizeToBlockchain,
 } = require("../utils/web3Utils");
 const { createNFTContract, getGasPrice, getNonce } = require("./web3Common");
 const fromExponential = require("from-exponential");
@@ -28,7 +30,7 @@ const getMintedNFTs = async () => {
   const mintedNFTS = [];
   //console.log(NFTContract.methods);
   const totalSupply = await NFTContract.methods._totalLands().call();
-  for (let i = 0; i < totalSupply; i++) {
+  for (let i = 3; i < totalSupply; i++) {
     const owner = await NFTContract.methods.ownerOf(i).call();
 
     if (owner != burnAddress) {
@@ -92,13 +94,15 @@ const getPoints = async (tokenId) => {
   const totalPoints = await NFTContract.methods.totalPointsOf(tokenId).call();
   const points = [];
 
-  for (let i = 0; i < totalPoints; i++) {
+  let center = await NFTContract.methods.points(tokenId, 0).call();
+  center = convertPoint(center);
+  for (let i = 1; i < totalPoints; i++) {
     let point = await NFTContract.methods.points(tokenId, i).call();
-    point = extractPointProps(point);
+    point = convertPoint(point);
     points.push(point);
   }
 
-  return points;
+  return { center, points };
 };
 
 /* VCUs generated, projected and sold */
@@ -166,6 +170,8 @@ const safeMint = async (landAttributes) => {
     unit,
   } = landAttributes;
 
+  console.log("safemint: ", landAttributes);
+
   size = Number(size);
   landAttributes.size = Number(size);
 
@@ -185,11 +191,11 @@ const safeMint = async (landAttributes) => {
       toAddress,
       landOwnerAlias,
       decimals,
-      normalizeNumber(size, decimals),
+      normalizeToBlockchain(size, decimals),
       country,
       stateOrRegion,
       city,
-      normalizeNumber(initialTCO2, decimals),
+      normalizeToBlockchain(initialTCO2, decimals),
       unit
     )
     .encodeABI();
@@ -415,6 +421,15 @@ const extractSpecieProps = (specie) => {
     updateDate,
     decimals,
   };
+};
+
+const convertPoint = (point) => {
+  const { latitude, longitude, decimals } = point;
+
+  return [
+    normalizeFromBlockchain(latitude, decimals, false),
+    normalizeFromBlockchain(longitude, decimals, false),
+  ];
 };
 
 const extractPointProps = (point) => {
