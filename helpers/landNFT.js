@@ -30,7 +30,7 @@ const getMintedNFTs = async () => {
   const mintedNFTS = [];
   //console.log(NFTContract.methods);
   const totalSupply = await NFTContract.methods._totalLands().call();
-  for (let i = 3; i < totalSupply; i++) {
+  for (let i = 4; i < totalSupply; i++) {
     const owner = await NFTContract.methods.ownerOf(i).call();
 
     if (owner != burnAddress) {
