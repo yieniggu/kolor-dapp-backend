@@ -30,12 +30,12 @@ const getMintedNFTs = async () => {
   const mintedNFTS = [];
   //console.log(NFTContract.methods);
   const totalSupply = await NFTContract.methods._totalLands().call();
-  for (let i = 4; i < totalSupply; i++) {
+  for (let i = 0; i < totalSupply; i++) {
     const owner = await NFTContract.methods.ownerOf(i).call();
 
     if (owner != burnAddress) {
       let NFTInfo = await getNFTInfo(i);
-      console.log("NFT ", i, NFTInfo);
+      // console.log("NFT ", i, NFTInfo);
       mintedNFTS.push(NFTInfo);
     } else {
       console.log("Token ", i, " is burned");
@@ -43,6 +43,15 @@ const getMintedNFTs = async () => {
   }
 
   return mintedNFTS;
+};
+
+const getPublishedNFTs = async () => {
+  const mintedNFTs = await getMintedNFTs();
+  const publishedLands = mintedNFTs.filter(
+    (mintedNFT) => mintedNFT.state === "3"
+  );
+
+  return publishedLands;
 };
 
 /* Get nft info of a single land */
@@ -66,7 +75,7 @@ const getNFTInfo = async (tokenId) => {
   NFTInfo.landTokenInfo = extractLandTokenProps(landTokenInfo);
   NFTInfo.landTokenInfo.totalHolders = landTokenHolders;
 
-  console.log("NFTINFO: ", NFTInfo);
+  // console.log("NFTINFO: ", NFTInfo);
   return NFTInfo;
 };
 
@@ -503,6 +512,7 @@ const extractLandTokenProps = (landTokenInfo) => {
 module.exports = {
   safeMint,
   getMintedNFTs,
+  getPublishedNFTs,
   getNFTtotalSupply,
   updateLandState,
   setSpecies,

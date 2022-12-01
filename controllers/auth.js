@@ -35,13 +35,20 @@ const createUser = async (req, res = response) => {
     await user.save();
 
     // Generate JWT
-    const token = await generateJWT(user.id, user.name, user.role);
+    const token = await generateJWT(
+      user.id,
+      user.name,
+      user.role,
+      user.address
+    );
 
     res.status(201).json({
       ok: true,
       uid: user.id,
       name: user.name,
+      role: user.role,
       token,
+      address: user.address,
     });
   } catch (err) {
     console.error(err);
@@ -76,7 +83,12 @@ const login = async (req, res = response) => {
 
     console.log(user);
     // Create JWT
-    const token = await generateJWT(user.id, user.name, user.role);
+    const token = await generateJWT(
+      user.id,
+      user.name,
+      user.role,
+      user.address
+    );
     res.json({
       ok: true,
       uid: user.id,
@@ -95,11 +107,11 @@ const login = async (req, res = response) => {
 };
 
 const refreshJWT = async (req, res = response) => {
-  //console.log(req);
-  const { uid, name, role } = req;
+  console.log("refreshing: ", req);
+  const { uid, name, role, address } = req;
 
   // generate new token and return in request
-  const token = await generateJWT(uid, name, role);
+  const token = await generateJWT(uid, name, role, address);
   //const { role } = await User.findOne({ uid });
 
   res.json({
@@ -108,6 +120,7 @@ const refreshJWT = async (req, res = response) => {
     name,
     token,
     role,
+    address,
   });
 };
 

@@ -72,6 +72,14 @@ const getNonce = async () => {
   );
 };
 
+const getLatestBlock = async () => {
+  return await web3.eth.getBlockNumber();
+};
+
+const signMessage = (message, privateKey) => {
+  return web3.eth.accounts.sign(message, privateKey);
+};
+
 module.exports = {
   createWallet,
   createNFTContract,
@@ -80,4 +88,6 @@ module.exports = {
   createERC20Contract,
   getGasPrice,
   getNonce,
+  getLatestBlock,
+  signMessage,
 };

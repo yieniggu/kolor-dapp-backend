@@ -14,11 +14,17 @@ const jwtValidator = (req, res = response, next) => {
   }
 
   try {
-    const { uid, name, role } = jwt.verify(token, process.env.SECRET_JWT_SEED);
+    const { uid, name, role, address } = jwt.verify(
+      token,
+      process.env.SECRET_JWT_SEED
+    );
+
+    console.log(uid, name, role, address);
 
     req.uid = uid;
     req.name = name;
     req.role = role;
+    req.address = address;
   } catch (err) {
     console.error(err);
     return res.status(401).json({

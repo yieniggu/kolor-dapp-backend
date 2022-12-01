@@ -73,6 +73,34 @@ const getLandTokenInvestors = async (tokenId) => {
   return await landTokenContract.methods.holders(tokenId).call();
 };
 
+const getLandTokenBalanceOf = async (address, id, block) => {
+  try {
+    const kit = newKit("https://forno.celo.org");
+
+    const landTokenContract = createLandTokenContract(kit);
+    const balance = await landTokenContract.methods
+      .balanceOf(address, id)
+      .call((defaultBlock = block || "latest"));
+
+    console.log("balance: ", balance);
+    return balance;
+  } catch (error) {
+    if (error.message.includes("missing trie node")) {
+      const kit = newKit(
+        "https://magical-special-model.celo-mainnet.discover.quiknode.pro/a30474bc578f489e3d631cf898c76b7b754f2acf/"
+      );
+
+      const landTokenContract = createLandTokenContract(kit);
+      const balance = await landTokenContract.methods
+        .balanceOf(address, id)
+        .call((defaultBlock = block || "latest"));
+
+      console.log("balance: ", balance);
+      return balance;
+    }
+  }
+};
+
 const getLandTokenBalancesOf = async (address, ids) => {
   const kit = newKit("https://forno.celo.org");
 
@@ -112,6 +140,7 @@ const getTokenPrice = async (tokenId) => {
 module.exports = {
   setLandTokenInfo,
   getLandTokenInfo,
+  getLandTokenBalanceOf,
   getLandTokenBalancesOf,
   getLandTokenHolders,
   getInvestmentsOf,
