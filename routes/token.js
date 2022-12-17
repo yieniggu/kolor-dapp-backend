@@ -7,6 +7,5 @@ const router = new Router();
 router.get("/:userId", [jwtValidator], getTokenBalances);
 
 router.get("/investments/:userId", [jwtValidator], getInvestments);
-//router.get("/transactions", [jwtValidator], getTransactions);
 
 module.exports = router;

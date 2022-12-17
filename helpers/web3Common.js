@@ -80,6 +80,13 @@ const signMessage = (message, privateKey) => {
   return web3.eth.accounts.sign(message, privateKey);
 };
 
+const validSignature = async (account, data, signature) => {
+  const signer = await web3.eth.accounts.recover(data, signature);
+  console.log("signer: ", signer);
+
+  return { valid: account === signer.toLowerCase(), signer };
+};
+
 module.exports = {
   createWallet,
   createNFTContract,
@@ -90,4 +97,5 @@ module.exports = {
   getNonce,
   getLatestBlock,
   signMessage,
+  validSignature,
 };

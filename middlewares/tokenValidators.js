@@ -53,6 +53,50 @@ const validateLandTokenBalanceInternal = async (req, res = response, next) => {
   next();
 };
 
+const validateLandTokenBalanceExternal = async (req, res = response, next) => {
+  try {
+    const { account, address } = req.body;
+    const { daoId } = req.params;
+
+    // fetch published lands to extract token Id
+    // TODO: Explore ways to speed this up (cache, redundancy in db, etc)
+    const publishedLands = await getPublishedNFTs();
+    const { tokenId } = publishedLands.find(
+      ({ identifier }) => identifier === daoId
+    );
+
+    if (!tokenId) {
+      return res.status(400).json({
+        ok: false,
+        error: ["Land doesn't exists"],
+      });
+    }
+
+    const landTokenBalance = await getLandTokenBalanceOf(
+      account || address,
+      tokenId
+    );
+
+    req.tokenId = tokenId;
+
+    // voting power not enough
+    if (landTokenBalance <= 0)
+      return res.status(404).json({
+        ok: false,
+        error: ["Not enough balance to do that!"],
+      });
+  } catch (e) {
+    console.log(e);
+    return res.status(500).json({
+      ok: false,
+      errors: ["Internal Server Error"],
+    });
+  }
+
+  next();
+};
+
 module.exports = {
   validateLandTokenBalanceInternal,
+  validateLandTokenBalanceExternal,
 };

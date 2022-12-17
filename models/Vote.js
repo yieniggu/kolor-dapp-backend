@@ -31,7 +31,6 @@ const VoteSchema = Schema({
   },
   messageHash: {
     type: String,
-    required: true,
   },
   signature: {
     type: String,

@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.94faacbb.css",
-    "main.js": "/static/js/main.1f55243c.js",
+    "main.css": "/static/css/main.d8eee879.css",
+    "main.js": "/static/js/main.8cd02ef4.js",
     "static/media/intro-background.png": "/static/media/intro-background.d9e729041032ca564d6d.png",
     "static/media/dashboard-background.png": "/static/media/dashboard-background.b1ac352b2bab4976afcb.png",
     "static/media/login-background.png": "/static/media/login-background.f90247cd3cbab7e11745.png",
@@ -11,6 +11,7 @@
     "static/media/placeholder.png": "/static/media/placeholder.21b01cddb3556aa27dc7.png",
     "static/media/mini-map.png": "/static/media/mini-map.ed7607b60173dacf7bb0.png",
     "static/media/logo_icon.png": "/static/media/logo_icon.e178a0756a18edab5671.png",
+    "static/media/ico_metamask.svg": "/static/media/ico_metamask.b3649ecfe8c45f27ceb9f99d70f3d24e.svg",
     "static/media/slick.svg": "/static/media/slick.2630a3e3eab21c607e21.svg",
     "static/media/slick.eot": "/static/media/slick.a4e97f5a2a64f0ab1323.eot",
     "static/media/slick.ttf": "/static/media/slick.c94f7671dcc99dce43e2.ttf",
@@ -21,11 +22,11 @@
     "static/media/ico_lock.svg": "/static/media/ico_lock.f2139c7e6f4de17e63c02f55cadcfcfd.svg",
     "static/media/ico_menu.svg": "/static/media/ico_menu.6308260a875574777f836d03c8d950df.svg",
     "static/media/ico_tick.svg": "/static/media/ico_tick.d937f939c3d84951868233b9c1d88c3a.svg",
-    "main.94faacbb.css.map": "/static/css/main.94faacbb.css.map",
-    "main.1f55243c.js.map": "/static/js/main.1f55243c.js.map"
+    "main.d8eee879.css.map": "/static/css/main.d8eee879.css.map",
+    "main.8cd02ef4.js.map": "/static/js/main.8cd02ef4.js.map"
   },
   "entrypoints": [
-    "static/css/main.94faacbb.css",
-    "static/js/main.1f55243c.js"
+    "static/css/main.d8eee879.css",
+    "static/js/main.8cd02ef4.js"
   ]
 }
