@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.6f0b6fe7.css",
-    "main.js": "/static/js/main.9866b1e3.js",
+    "main.css": "/static/css/main.96c3349a.css",
+    "main.js": "/static/js/main.19320fca.js",
     "static/media/intro-background.png": "/static/media/intro-background.d9e729041032ca564d6d.png",
     "static/media/dashboard-background.png": "/static/media/dashboard-background.b1ac352b2bab4976afcb.png",
     "static/media/login-background.png": "/static/media/login-background.f90247cd3cbab7e11745.png",
@@ -23,11 +23,11 @@
     "static/media/ico_lock.svg": "/static/media/ico_lock.f2139c7e6f4de17e63c02f55cadcfcfd.svg",
     "static/media/ico_menu.svg": "/static/media/ico_menu.6308260a875574777f836d03c8d950df.svg",
     "static/media/ico_tick.svg": "/static/media/ico_tick.d937f939c3d84951868233b9c1d88c3a.svg",
-    "main.6f0b6fe7.css.map": "/static/css/main.6f0b6fe7.css.map",
-    "main.9866b1e3.js.map": "/static/js/main.9866b1e3.js.map"
+    "main.96c3349a.css.map": "/static/css/main.96c3349a.css.map",
+    "main.19320fca.js.map": "/static/js/main.19320fca.js.map"
   },
   "entrypoints": [
-    "static/css/main.6f0b6fe7.css",
-    "static/js/main.9866b1e3.js"
+    "static/css/main.96c3349a.css",
+    "static/js/main.19320fca.js"
   ]
 }

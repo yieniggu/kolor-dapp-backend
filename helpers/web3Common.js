@@ -84,7 +84,7 @@ const validSignature = async (account, data, signature) => {
   const signer = await web3.eth.accounts.recover(data, signature);
   console.log("signer: ", signer);
 
-  return { valid: account === signer.toLowerCase(), signer };
+  return { valid: account.toLowerCase() === signer.toLowerCase(), signer };
 };
 
 module.exports = {

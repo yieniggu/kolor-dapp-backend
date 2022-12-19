@@ -11,10 +11,12 @@ const User = require("../models/User");
 const Vote = require("../models/Vote");
 
 const getProposals = async (req, res = response) => {
-  const { daoId } = req;
+  const { daoId } = req.params;
+
+  console.log(req.params);
 
   try {
-    const proposals = await Proposal.find({ identifier: daoId })
+    const proposals = await Proposal.find({ daoId })
       .populate({ path: "votes" })
       .exec();
     // console.log(proposals);
@@ -301,7 +303,7 @@ const addVoteExternal = async (req, res = response) => {
 
 const createProposalExternal = async (req, res = response) => {
   const {
-    account,
+    address,
     title,
     summary,
     discussion,
@@ -312,7 +314,7 @@ const createProposalExternal = async (req, res = response) => {
   } = req.body;
 
   try {
-    const { valid } = await validSignature(account, stringified, signature);
+    const { valid } = await validSignature(address, stringified, signature);
 
     //validate signed message
     if (!valid) {
@@ -333,7 +335,7 @@ const createProposalExternal = async (req, res = response) => {
       title,
       summary,
       discussion,
-      authorAddress: account,
+      authorAddress: address,
       options,
       startDate,
       endDate,
