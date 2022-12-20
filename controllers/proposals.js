@@ -198,6 +198,8 @@ const addVoteExternal = async (req, res = response) => {
     signature,
   } = req.body;
 
+  console.log("data: ", req.body);
+
   try {
     const foundProposal = await Proposal.findById(proposal)
       .populate("votes")
