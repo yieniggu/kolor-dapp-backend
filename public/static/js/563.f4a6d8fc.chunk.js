@@ -1,0 +1,1 @@
+(self.webpackChunkkolor_dapp_ui=self.webpackChunkkolor_dapp_ui||[]).push([[563],{6563:function(){}}]);
